@@ -45,6 +45,8 @@ def evaluate_model_link_prediction(model_name: str, model: nn.Module, neighbor_s
     with torch.no_grad():
         # store evaluate losses and metrics
         evaluate_losses, evaluate_metrics = [], []
+        
+        
         evaluate_idx_data_loader_tqdm = tqdm(evaluate_idx_data_loader, ncols=120)
         for batch_idx, evaluate_data_indices in enumerate(evaluate_idx_data_loader_tqdm):
             evaluate_data_indices = evaluate_data_indices.numpy()
@@ -146,9 +148,9 @@ def evaluate_model_link_prediction(model_name: str, model: nn.Module, neighbor_s
             loss = loss_func(input=predicts, target=labels)
 
             evaluate_losses.append(loss.item())
-
+            
             evaluate_metrics.append(get_link_prediction_metrics(predicts=predicts, labels=labels))
-
+            
             evaluate_idx_data_loader_tqdm.set_description(f'evaluate for the {batch_idx + 1}-th batch, evaluate loss: {loss.item()}')
 
     return evaluate_losses, evaluate_metrics
